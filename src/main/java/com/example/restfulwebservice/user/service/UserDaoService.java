@@ -1,6 +1,7 @@
 package com.example.restfulwebservice.user.service;
 
 import com.example.restfulwebservice.user.bean.User;
+import com.example.restfulwebservice.user.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,8 +15,8 @@ public class UserDaoService {
 
     static {
         users.add(new User(1, "Bikoo", new Date()));
-        users.add(new User(1, "Alice", new Date()));
-        users.add(new User(1, "Steven", new Date()));
+        users.add(new User(2, "Alice", new Date()));
+        users.add(new User(3, "Steven", new Date()));
     }
 
     public List<User> findAll() {
@@ -32,6 +33,7 @@ public class UserDaoService {
     }
 
     public User findOne(int id) {
-        return users.stream().filter(i -> i.getId() == id).findAny().get();
+        return users.stream().filter(i -> i.getId() == id).findAny()
+                .orElseThrow(() ->  new UserNotFoundException(String.format("ID[%s] is not found", id)));
     }
 }
