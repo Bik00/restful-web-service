@@ -1,7 +1,6 @@
 package com.example.restfulwebservice.user.controller;
 
 import com.example.restfulwebservice.user.bean.User;
-import com.example.restfulwebservice.user.exception.UserNotFoundException;
 import com.example.restfulwebservice.user.service.UserDaoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

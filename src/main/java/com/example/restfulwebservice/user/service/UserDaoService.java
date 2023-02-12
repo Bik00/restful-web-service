@@ -1,7 +1,7 @@
 package com.example.restfulwebservice.user.service;
 
+import com.example.restfulwebservice.exception.UserNotFoundException;
 import com.example.restfulwebservice.user.bean.User;
-import com.example.restfulwebservice.user.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
