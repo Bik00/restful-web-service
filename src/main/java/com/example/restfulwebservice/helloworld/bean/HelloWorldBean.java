@@ -1,4 +1,4 @@
-package com.example.restfulwebservice.bean;
+package com.example.restfulwebservice.helloworld.bean;
 
 //lombok
 
