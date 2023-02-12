@@ -1,5 +1,6 @@
 package com.example.restfulwebservice.user.controller;
 
+import com.example.restfulwebservice.exception.UserNotFoundException;
 import com.example.restfulwebservice.user.bean.User;
 import com.example.restfulwebservice.user.service.UserDaoService;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +40,14 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable int id) {
+        User user = service.deleteById(id);
+
+        if(user == null) {
+            throw new UserNotFoundException(String.format("ID[%s] is not found", id));
+        }
     }
 }
