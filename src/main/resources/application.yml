@@ -9,6 +9,12 @@ spring:
   messages:
     basename: messages
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 springdoc:
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
