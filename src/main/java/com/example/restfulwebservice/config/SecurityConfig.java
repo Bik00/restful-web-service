@@ -22,9 +22,12 @@ public class SecurityConfig {
         // form login 해제
         // httpSecurity.formLogin().disable();
 
-        httpSecurity.authorizeHttpRequests()
-                .requestMatchers("/**").hasRole("USER").and().formLogin();
+//        httpSecurity.authorizeHttpRequests()
+//                .requestMatchers("/**").hasRole("USER")
+//                .requestMatchers("/h2-console/**").permitAll();
 
+        httpSecurity.authorizeHttpRequests()
+                .requestMatchers("/**").permitAll();
 
         httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().disable();
