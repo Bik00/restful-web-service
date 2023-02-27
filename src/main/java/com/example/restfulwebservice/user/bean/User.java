@@ -1,18 +1,17 @@
 package com.example.restfulwebservice.user.bean;
 
+import com.example.restfulwebservice.post.bean.Post;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Date;
+import java.util.List;
 
 //@JsonIgnoreProperties(value={"password"})
 //@JsonFilter("UserInfo")
@@ -44,4 +43,17 @@ public class User {
 //    @JsonIgnore
     @Schema(description = "SSN 번호")
     private String ssn;
+
+    @Schema(description = "포스트")
+    @OneToMany(mappedBy = "user")
+    private List<Post> postList;
+
+    public User(int id, String name, Date joinDate, String password, String ssn) {
+        this.id = id;
+        this.name = name;
+        this.joinDate = joinDate;
+        this.password = password;
+        this.ssn = ssn;
+
+    }
 }
