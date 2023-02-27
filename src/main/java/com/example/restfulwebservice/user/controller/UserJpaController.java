@@ -1,6 +1,8 @@
 package com.example.restfulwebservice.user.controller;
 
 import com.example.restfulwebservice.exception.UserNotFoundException;
+import com.example.restfulwebservice.post.bean.Post;
+import com.example.restfulwebservice.post.repository.PostRepository;
 import com.example.restfulwebservice.user.bean.User;
 import com.example.restfulwebservice.user.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,6 +28,9 @@ public class UserJpaController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PostRepository postRepository;
 
     @GetMapping("/users")
     @Operation(summary = "전체 사용자 조회", description = "전체 사용자를 출력합니다.")
@@ -57,6 +62,33 @@ public class UserJpaController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedUser.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    // http://localhost:{port}/users/9001/posts
+    @GetMapping("/users/{id}/posts")
+    public List<Post> retrieveAllPostsByUsers(@PathVariable int id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(String.format("ID[%s] is not found", id)));
+
+        return user.getPostList();
+    }
+
+    @PostMapping("/users/{id}/posts")
+    public ResponseEntity<Post> createPost(@PathVariable int id, @RequestBody Post post) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(String.format("ID[%s] is not found", id)));
+
+        post.setUser(user);
+
+        Post savedPost = postRepository.save(post);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedPost.getId())
                 .toUri();
 
         return ResponseEntity.created(location).build();
